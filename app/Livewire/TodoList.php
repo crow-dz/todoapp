@@ -39,7 +39,9 @@ class TodoList extends Component
 
       
      }
-
+    public function deleteTodo(Note $todo){
+     $todo->delete();
+    }
     
     public function render()
     {
