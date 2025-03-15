@@ -17,7 +17,7 @@ A minimal **Laravel Livewire Todo App** that allows users to add, delete, and ma
 ## 🚀 Quick Setup  
 ### 1️⃣ Clone the repository:  
 ```bash
-git clone https://github.com/yourusername/livewire-todo.git
+git clone https://github.com/crow-dz/todoapp.git
 cd livewire-todo
 ```
 
