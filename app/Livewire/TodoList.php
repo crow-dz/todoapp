@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Models\Note;
 use App\Models\User;
+use Error;
+use Exception;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -42,6 +44,7 @@ class TodoList extends Component
 
     }
 
+
     public function updateTodo()
     {
         $this->validateOnly('newContent');
@@ -66,11 +69,22 @@ class TodoList extends Component
 
     }
 
-
-
-    public function deleteTodo(Note $todo)
+    public function updatedSelected()
     {
-        $todo->delete();
+        $this->perPage = 10;
+    }
+
+    public function deleteTodo($todoId)
+    {
+        try {
+            $todo = Note::findOrFail($todoId);
+            $todo->delete();
+
+        } catch (Exception $e) {
+            session()->flash('error', "Failed to delete.");
+            return;
+        }
+        ;
     }
     public function toggleComplete($todoId)
     {
@@ -83,7 +97,7 @@ class TodoList extends Component
 
     public function render()
     {
-        $todos = Note::latest()->where('content', 'like', "%{$this->search}%")->paginate(5);
+        $todos = Note::latest()->where('content', 'like', "%{$this->search}%")->paginate(10);
 
         return view('livewire.todo-list', [
             'user' => $this->user,

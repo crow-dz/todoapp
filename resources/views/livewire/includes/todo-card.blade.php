@@ -3,12 +3,14 @@
     <div class="flex justify-between space-x-2">
 
         @if ($updatedTodoId == $todo->id)
-            <input wire:model='newContent' type="text" placeholder="Todo.."
-                class="bg-gray-100  text-gray-900 text-sm rounded block w-full p-2.5">
+            <div>
+                <input wire:model='newContent' type="text" placeholder="Todo.."
+                    class="bg-gray-100  text-gray-900 text-sm rounded block w-full p-2.5">
 
-            @error('newContent')
-                <span class="text-red-500 text-xs block">{{ $message }}</span>
-            @enderror
+                @error('newContent')
+                    <span class="text-red-500 text-xs block mt-1">{{ $message }}</span>
+                @enderror
+            </div>
         @else
             <div class="flex flex-row items-center space-x-2 justify-between ">
 
