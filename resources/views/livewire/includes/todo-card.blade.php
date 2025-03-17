@@ -2,29 +2,36 @@
     class="todo mb-5 card px-5 py-6 bg-white col-span-1 border-t-2 border-blue-500 hover:shadow">
     <div class="flex justify-between space-x-2">
 
-        <!-- <input type="text" placeholder="Todo.."
-                        class="bg-gray-100  text-gray-900 text-sm rounded block w-full p-2.5"
-                        value="Todo Name">
-                    
-                        <span class="text-red-500 text-xs block">error</span> -->
+        @if ($updatedTodoId == $todo->id)
+            <input wire:model='newContent' type="text" placeholder="Todo.."
+                class="bg-gray-100  text-gray-900 text-sm rounded block w-full p-2.5">
 
-        <div class="flex flex-row items-center space-x-2 justify-between ">
+            @error('newContent')
+                <span class="text-red-500 text-xs block">{{ $message }}</span>
+            @enderror
+        @else
+            <div class="flex flex-row items-center space-x-2 justify-between ">
 
-            @if ($todo->is_completed)
-                <input type="checkbox" class=" rounded text-teal-500" wire:click="toggleComplete({{ $todo->id }})"
-                    checked>
-            @else
-                <input type="checkbox" class=" rounded text-teal-500" wire:click="toggleComplete({{ $todo->id }})">
-            @endif
+                @if ($todo->is_completed)
+                    <input type="checkbox" class=" rounded text-teal-500"
+                        wire:click="toggleComplete({{ $todo->id }})" checked>
+                @else
+                    <input type="checkbox" class=" rounded text-teal-500"
+                        wire:click="toggleComplete({{ $todo->id }})">
+                @endif
 
 
-            <h3 class="text-lg text-semibold text-gray-800">{{ $todo->content }}</h3>
+                <h3 class="text-lg text-semibold text-gray-800">{{ $todo->content }}</h3>
 
-        </div>
+            </div>
+        @endif
+
+
 
 
         <div class="flex items-center space-x-2">
-            <button class="text-sm text-teal-500 font-semibold rounded hover:text-teal-800">
+            <button wire:click='openEdit({{ $todo->id }})'
+                class="text-sm text-teal-500 font-semibold rounded hover:text-teal-800">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-4 h-4">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -43,11 +50,12 @@
     </div>
     <span class="text-xs text-gray-500"> {{ $todo->created_at }} </span>
     <div class="mt-3 text-xs text-gray-700">
-        <!--
-                    <button
-                        class="mt-3 px-4 py-2 bg-teal-500 text-white font-semibold rounded hover:bg-teal-600">Update</button>
-                    <button
-                        class="mt-3 px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600">Cancel</button> -->
+        @if ($updatedTodoId == $todo->id)
+            <button wire:click='updateTodo'
+                class="mt-3 px-4 py-2 bg-teal-500 text-white font-semibold rounded hover:bg-teal-600">Update</button>
+            <button wire:click='closeEdit'
+                class="mt-3 px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600">Cancel</button>
+        @endif
 
     </div>
 </div>

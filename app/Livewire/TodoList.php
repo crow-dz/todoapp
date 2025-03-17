@@ -16,17 +16,40 @@ class TodoList extends Component
     public $user;
     #[Rule('required|min:3')]
     public $content;
-
+    #[Rule('required|min:3')]
+    public $newContent;
     public $userid;
 
     public $search;
+
+    public $updatedTodoId;
 
     public function mount()
     {
         $this->user = User::find(1);
     }
 
+    public function openEdit($todoId)
+    {
+        $this->updatedTodoId = $todoId;
+        $this->newContent = Note::find($todoId)->content;
 
+    }
+
+    public function closeEdit()
+    {
+        $this->reset('updatedTodoId');
+
+    }
+
+    public function updateTodo()
+    {
+        $this->validateOnly('newContent');
+
+        Note::find($this->updatedTodoId)->update(['content' => $this->newContent]);
+
+        $this->reset('updatedTodoId');
+    }
 
     public function createTodo()
     {
